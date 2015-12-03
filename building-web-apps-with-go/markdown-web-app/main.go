@@ -20,5 +20,6 @@ func main() {
 
 func GenerateMarkdown(rw http.ResponseWriter, r *http.Request) {
 	markdown := blackfriday.MarkdownCommon([]byte(r.FormValue("body")))
+	rw.Header().Set("Content-Type", "text/html")
 	rw.Write(markdown)
 }
