@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"io/ioutil"
 )
 
 func main() {
@@ -33,21 +34,27 @@ func main() {
 		fmt.Println(err.Error())
 		os.Exit(2)
 	}
-
+	// 使用这种方式的话，无法使用代理
 	response, err := client.Do(request)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(2)
+	}
+
 	if response.Status != "200 OK" {
 		fmt.Println(response.Status)
 		os.Exit(2)
 	}
 
-	var buf [512]byte
 	reader := response.Body
-	for {
-		n, err := reader.Read(buf[0:])
-		if err != nil {
-			os.Exit(0)
-		}
-		fmt.Print(string(buf[0:n]))
+	defer reader.Close()
+
+	body, err := ioutil.ReadAll(reader)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(2)
 	}
+	fmt.Println(string(body))
+
 	os.Exit(0)
 }

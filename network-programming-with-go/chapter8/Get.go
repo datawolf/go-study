@@ -4,6 +4,7 @@
 //
 // Distributed under terms of the MIT license.
 //
+// ./Get http://releases.rancher.com/os/releases.yml
 
 package main
 
@@ -12,9 +13,11 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"os"
+	"io/ioutil"
 )
 
 func main() {
+	//os.Setenv("HTTPS_PROXY", "http://username:password@proxyhost:port")
 	if len(os.Args) != 2 {
 		fmt.Println("Usage: ", os.Args[0], "host:port")
 		os.Exit(1)
@@ -35,14 +38,14 @@ func main() {
 	b, _ := httputil.DumpResponse(response, false)
 	fmt.Print(string(b))
 
-	var buf [512]byte
 	reader := response.Body
-	for {
-		n, err := reader.Read(buf[0:])
-		if err != nil {
-			os.Exit(0)
-		}
-		fmt.Print(string(buf[0:n]))
+	defer reader.Close()
+
+	body, err := ioutil.ReadAll(reader)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(2)
 	}
+	fmt.Println(string(body))
 	os.Exit(0)
 }
