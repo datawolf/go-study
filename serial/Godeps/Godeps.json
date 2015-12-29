@@ -1,0 +1,20 @@
+{
+	"ImportPath": "github.com/datawolf/go-study/serial",
+	"GoVersion": "go1.5.1",
+	"Deps": [
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.2-125-gd512f20",
+			"Rev": "d512f204a577a4ab037a1816604c48c9c13210be"
+		},
+		{
+			"ImportPath": "github.com/lnmx/serial",
+			"Rev": "a8afcc6fe59df7ab7d73b30c209f7d845c755951"
+		},
+		{
+			"ImportPath": "gopkg.in/ini.v1",
+			"Comment": "v1.8.5",
+			"Rev": "77178f22699a4ecafce485fb8d86b7afeb7e3e28"
+		}
+	]
+}
