@@ -7,4 +7,4 @@
 #
 
 
-GOOS=windows GOARCH=386 go build -o SerialServer.exe main.go
+GOOS=windows GOARCH=386 go build -o ReadID.exe main.go
