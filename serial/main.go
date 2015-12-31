@@ -19,6 +19,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var (
+	dbconn string
+)
 func main() {
 	cfg, err := ini.Load("config.ini")
 	if err != nil {
@@ -30,6 +33,7 @@ func main() {
 	baud, _ := strconv.Atoi(cfg.Section("serial").Key("BAUD").String())
 	log.Println("device", device, "baud", baud)
 
+	dbconn = cfg.Section("db").Key("CONN").String()
 	setupSerial(device, baud)
 }
 
@@ -44,7 +48,7 @@ func setupSerial(device string, baud int) {
 	log.Println("ready")
 
 	// open the databases
-	db, err := sql.Open("mysql", "root:123qwe@/salary")
+	db, err := sql.Open("mysql", dbconn)
 	if err != nil {
 		log.Println("can not open databases: ", err)
 	}
