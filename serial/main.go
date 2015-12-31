@@ -56,12 +56,12 @@ func setupSerial(device string, baud int) {
 	}
 
 	// Prepare statement for inserting data
-	stmtIns, err := db.Prepare("INSERT INTO ss_id set id=?")
+	stmtIns, err := db.Prepare("INSERT INTO tbl_id set id=?")
 	if err != nil {
 		log.Println("db prepare error:", err)
 	}
 
-	stmtUpdate, err := db.Prepare("UPDATE serial set id=?")
+	stmtUpdate, err := db.Prepare("UPDATE tbl_serial set id=?")
 	if err != nil {
 		log.Println("db prepare error:", err)
 	}
