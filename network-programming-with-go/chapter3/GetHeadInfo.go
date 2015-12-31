@@ -8,12 +8,11 @@
 package main
 
 import (
-	"net"
-	"os"
 	"fmt"
 	"io/ioutil"
+	"net"
+	"os"
 )
-
 
 func main() {
 	if len(os.Args) != 2 {

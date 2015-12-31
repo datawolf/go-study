@@ -8,13 +8,12 @@
 package main
 
 import (
-	"net"
-	"os"
+	"bytes"
 	"fmt"
 	"io"
-	"bytes"
+	"net"
+	"os"
 )
-
 
 func main() {
 	if len(os.Args) != 2 {

@@ -9,8 +9,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"net"
+	"os"
 )
 
 func main() {
@@ -28,7 +28,7 @@ func main() {
 
 	_, err = conn.Write([]byte("anything"))
 
-	var	buf [512]byte
+	var buf [512]byte
 	n, err := conn.Read(buf[0:])
 	checkError(err)
 
@@ -36,7 +36,6 @@ func main() {
 
 	os.Exit(0)
 }
-
 
 func checkError(err error) {
 	if err != nil {

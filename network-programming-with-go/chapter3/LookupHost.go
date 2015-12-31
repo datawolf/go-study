@@ -7,11 +7,10 @@
 
 package main
 
-
 import (
+	"fmt"
 	"net"
 	"os"
-	"fmt"
 )
 
 func main() {

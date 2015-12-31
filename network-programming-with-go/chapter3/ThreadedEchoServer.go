@@ -9,8 +9,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"net"
+	"os"
 )
 
 func main() {
@@ -27,14 +27,14 @@ func main() {
 			continue
 		}
 		// run as a goroutine
-		go	handleClient(conn)
+		go handleClient(conn)
 	}
 }
 
 func handleClient(conn net.Conn) {
 	//close connection on exit
 	defer conn.Close()
-	var	buf	[512]byte
+	var buf [512]byte
 
 	for {
 		// read upto 512 bytes

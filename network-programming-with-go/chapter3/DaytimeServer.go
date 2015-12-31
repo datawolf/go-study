@@ -9,8 +9,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"net"
+	"os"
 	"time"
 )
 
@@ -33,7 +33,6 @@ func main() {
 		conn.Close()
 	}
 }
-
 
 func checkError(err error) {
 	if err != nil {

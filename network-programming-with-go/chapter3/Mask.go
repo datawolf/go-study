@@ -31,7 +31,7 @@ func main() {
 	// return the default IP mask of the addr
 	mask := addr.DefaultMask()
 
-	// return the result of masking the IP address with mask 
+	// return the result of masking the IP address with mask
 	network := addr.Mask(mask)
 
 	// return the number of leading ones and total bits in the mask
