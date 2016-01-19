@@ -1,0 +1,15 @@
+{
+	"ImportPath": "github.com/datawolf/go-study/serial.v1",
+	"GoVersion": "go1.5.1",
+	"Deps": [
+		{
+			"ImportPath": "github.com/lnmx/serial",
+			"Rev": "a8afcc6fe59df7ab7d73b30c209f7d845c755951"
+		},
+		{
+			"ImportPath": "gopkg.in/ini.v1",
+			"Comment": "v1.8.5",
+			"Rev": "77178f22699a4ecafce485fb8d86b7afeb7e3e28"
+		}
+	]
+}
