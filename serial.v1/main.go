@@ -14,7 +14,6 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"time"
 
 	"github.com/lnmx/serial"
 	"gopkg.in/ini.v1"
@@ -25,7 +24,7 @@ type Id struct {
 }
 
 var (
-	num = make(chan string, 1)
+	num = ""
 )
 
 func main() {
@@ -44,36 +43,18 @@ func main() {
 }
 
 func serialServer() {
-	http.HandleFunc("/id", getID)
+	http.HandleFunc("/id", http.HandlerFunc(getID))
 	http.ListenAndServe(":8080", nil)
 }
 
 func getID(res http.ResponseWriter, req *http.Request) {
-	temp_num := ""
-	timeout := make(chan bool, 1)
-	go func() {
-		time.Sleep(1*time.Second)
-		timeout <- true
-	}()
-
-	select {
-	case temp_num = <-num:
-		log.Println("get id ok")
-	case <-timeout:
-		temp_num = "404"
-		log.Println("get id timeout")
-	}
-
-	id := Id{
-		ic: temp_num,
-	}
-
-	log.Println("id:", id)
-	log.Println("temp_num:", temp_num)
+	id := Id{num}
+	log.Println("id", id)
 	res.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	if err := json.NewEncoder(res).Encode(id); err != nil {
 		log.Println("Encode error")
 	}
+	num = ""
 }
 
 func setupSerial(device string, baud int) {
@@ -87,27 +68,15 @@ func setupSerial(device string, baud int) {
 	log.Println("ready")
 
 	buf := make([]byte, 512)
-	timeout := make(chan bool, 1)
 	for {
 		n, err := port.Read(buf)
 		if err != nil {
 			log.Println("serial read error:", err)
 		}
-
-		go func() {
-			time.Sleep(1*time.Second)
-			timeout <- true
-		}()
-
-		select {
-		case num <- string(buf[:n]):
-			log.Println("setupserail ok")
-		case <-timeout:
-			log.Println("setupserail timeout")
-		}
+		num = string(buf[:n])
 		// n = the read length
 		if n > 0 {
-			log.Println(n, "接收到刷卡信息--> ", string(buf[:n]))
+			log.Println(n, "接收到刷卡信息--> ", num)
 		}
 	}
 }
