@@ -20,7 +20,7 @@ import (
 )
 
 type Id struct {
-	ic string `json:"id"`
+	Ic string `json:"id"`
 }
 
 var (
