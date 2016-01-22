@@ -13,6 +13,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 	"strconv"
 
 	"github.com/lnmx/serial"
@@ -67,16 +68,19 @@ func setupSerial(device string, baud int) {
 	defer port.Close()
 	log.Println("ready")
 
-	buf := make([]byte, 512)
+//	buf := make([]byte, 512)
 	for {
-		n, err := port.Read(buf)
-		if err != nil {
-			log.Println("serial read error:", err)
-		}
-		num = string(buf[:n])
-		// n = the read length
-		if n > 0 {
-			log.Println(n, "接收到刷卡信息--> ", num)
-		}
+		time.Sleep(5 * time.Second)
+		num = time.Now().String()
+		log.Println("update = ", num)
+//		n, err := port.Read(buf)
+//		if err != nil {
+//			log.Println("serial read error:", err)
+//		}
+//		num = string(buf[:n])
+//		// n = the read length
+//		if n > 0 {
+//			log.Println(n, "接收到刷卡信息--> ", num)
+//		}
 	}
 }
