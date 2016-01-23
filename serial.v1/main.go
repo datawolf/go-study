@@ -9,7 +9,7 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
+	//	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -21,9 +21,9 @@ import (
 	"gopkg.in/ini.v1"
 )
 
-type Id struct {
-	Ic string `json:"id"`
-}
+//type Id struct {
+//	Ic string `json:"id"`
+//}
 
 var (
 	num = ""
@@ -50,12 +50,13 @@ func serialServer() {
 }
 
 func getID(res http.ResponseWriter, req *http.Request) {
-	id := Id{num}
-	log.Println("id", id)
+	//	id := Id{num}
+	log.Println("num", num)
 	res.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err := json.NewEncoder(res).Encode(id); err != nil {
-		log.Println("Encode error")
-	}
+	fmt.Fprintf(res, "callbackid([\"%s\"])", num)
+	//	if err := json.NewEncoder(res).Encode(id); err != nil {
+	//		log.Println("Encode error")
+	//	}
 	num = ""
 }
 
