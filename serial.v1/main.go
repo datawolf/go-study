@@ -8,23 +8,25 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/lnmx/serial"
 	"gopkg.in/ini.v1"
 )
 
 type Id struct {
-	Ic string `json:"id"`
+	Ic uint64 `json:"id"`
 }
 
 var (
-	num = ""
+	num = uint64(0)
 )
 
 func main() {
@@ -54,7 +56,7 @@ func getID(res http.ResponseWriter, req *http.Request) {
 	if err := json.NewEncoder(res).Encode(id); err != nil {
 		log.Println("Encode error")
 	}
-	num = ""
+	num = 0
 }
 
 func setupSerial(device string, baud int) {
@@ -68,15 +70,50 @@ func setupSerial(device string, baud int) {
 	log.Println("ready")
 
 	buf := make([]byte, 512)
+	var buffer bytes.Buffer
+	i := 0
+
 	for {
-		n, err := port.Read(buf)
-		if err != nil {
-			log.Println("serial read error:", err)
+		i = 0
+		buffer.Truncate(0)
+		for i != 10 && i < 10 {
+			// n = the read length
+			n, err := port.Read(buf)
+			if err != nil {
+				log.Println("serial read error:", err)
+			}
+			time.Sleep(time.Second)
+			log.Println(n, "接收到刷卡信息--> ", string(buf[:n]))
+			buffer.Write(buf[:n])
+			i += n
 		}
-		num = string(buf[:n])
-		// n = the read length
-		if n > 0 {
-			log.Println(n, "接收到刷卡信息--> ", num)
+		if i != 10 {
+			continue
 		}
+		num = parserID(buffer.String())
 	}
+}
+
+func parserID(res string) uint64 {
+	var s uint64
+	data := []byte(res)
+	if len(res) != 10 {
+		s = 0
+		return s
+	}
+	log.Println("before change data:", data)
+	//change D1EC80AC to AC80ECD1
+	data[0], data[6] = data[6], data[0]
+	data[1], data[7] = data[7], data[1]
+	data[2], data[4] = data[4], data[2]
+	data[3], data[5] = data[5], data[3]
+	log.Println("after change data:", data)
+
+	card := string(data[:8])
+	log.Println("before parserID:", card)
+	if s, err := strconv.ParseUint(card, 16, 64); err == nil {
+		log.Printf("parserID: %T, %v", s, s)
+	}
+
+	return s
 }
