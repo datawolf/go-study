@@ -22,11 +22,11 @@ import (
 )
 
 type Id struct {
-	Ic uint64 `json:"id"`
+	Ic string `json:"id"`
 }
 
 var (
-	num = uint64(0)
+	num = ""
 )
 
 func main() {
@@ -56,7 +56,7 @@ func getID(res http.ResponseWriter, req *http.Request) {
 	if err := json.NewEncoder(res).Encode(id); err != nil {
 		log.Println("Encode error")
 	}
-	num = 0
+	num = ""
 }
 
 func setupSerial(device string, baud int) {
@@ -90,7 +90,7 @@ func setupSerial(device string, baud int) {
 		if i != 10 {
 			continue
 		}
-		num = parserID(buffer.String())
+		num = buffer.String()
 	}
 }
 
