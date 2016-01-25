@@ -7,4 +7,4 @@
 #
 
 
-GOOS=windows GOARCH=386 godep go build -o ReadID.exe main.go
+GOOS=windows GOARCH=386 godep go build -ldflags "-H windowsgui"  -o ReadID.exe main.go
