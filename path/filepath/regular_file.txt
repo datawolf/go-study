@@ -1,0 +1,7 @@
+regular_file.txt
+
+:Author: wanglong
+:Email: wanglong@laoqinren.net
+:Date: 2016-02-29 15:47
+
+regular file
