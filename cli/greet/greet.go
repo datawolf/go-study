@@ -9,8 +9,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"github.com/codegangsta/cli"
+	"os"
 )
 
 func main() {
@@ -20,9 +20,12 @@ func main() {
 	app.Name = "greet"
 	app.Usage = "fight the loneliness!"
 	app.EnableBashCompletion = true
-	app.Flags = []cli.Flag {
-		cli.StringFlag {
-			Name: "lang, l",
+	app.Author = "Wang Long"
+	app.Email = "long.wanglong@huawei.com"
+	app.HideHelp = true
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:  "lang, l",
 			Value: "english",
 			Usage: "language for the greeting",
 		},
@@ -30,9 +33,9 @@ func main() {
 
 	app.Commands = []cli.Command{
 		{
-			Name: "add",
-			Aliases:	[]string{"a"},
-			Usage:	"add a task to the list",
+			Name:    "add",
+			Aliases: []string{"a"},
+			Usage:   "add a task to the list",
 			Action: func(c *cli.Context) {
 				println("add task:", c.Args().First())
 			},
@@ -40,15 +43,15 @@ func main() {
 				if len(c.Args()) > 0 {
 					return
 				}
-				for _, t := range tasks	 {
+				for _, t := range tasks {
 					fmt.Println(t)
 				}
 			},
 		},
 		{
-			Name: "complete",
-			Aliases:	[]string{"c"},
-			Usage:	"complete a task on the list",
+			Name:    "complete",
+			Aliases: []string{"c"},
+			Usage:   "complete a task on the list",
 			Action: func(c *cli.Context) {
 				println("completed task: ", c.Args().First())
 			},
