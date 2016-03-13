@@ -91,6 +91,8 @@ func setupSerial(device string, baud int) {
 		if i != 10 {
 			continue
 		}
+		buffer.Truncate(8)
+		buffer.Write([]byte("  "))
 		num = buffer.String()
 	}
 }
