@@ -8,7 +8,7 @@
 package validate
 
 import (
-	"string"
+	"strings"
 )
 
 // context represents the current position within a newline-delimited string
@@ -33,7 +33,7 @@ func (c *context) Increment() {
 	} else {
 		c.remainingLines = ""
 	}
-	c.linuNumber++
+	c.lineNumber++
 }
 
 // NewContext creates a context from the provided data. It strips out all
