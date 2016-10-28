@@ -18,10 +18,12 @@ func main() {
 	sigs := make(chan os.Signal, 1)
 	done := make(chan bool, 1)
 
+	// singal.Notify registers the given channel to receive
+	// notification of the specified signals.
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
-		sig := <-sigs
+		sig := <-sigs // block until a signal is received.
 		fmt.Println()
 		fmt.Println(sig)
 		done <- true
@@ -31,3 +33,9 @@ func main() {
 	<-done
 	fmt.Println("exiting")
 }
+
+//$ go run signals.go
+//awaiting signal
+//^C
+//interrupt
+//exiting
